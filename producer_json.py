@@ -1,24 +1,23 @@
 from kafka import KafkaProducer
+import json
 
-producer = KafkaProducer(
-    bootstrap_servers='localhost:9092',
-    value_serializer=lambda v: str(v).encode('utf-8')  # Assuming the message is a string
-)
+# Tentukan alamat broker Kafka
+bootstrap_servers = 'localhost:9092'  # Ganti dengan alamat broker Kafka Anda
 
+# Buat objek KafkaProducer
+producer = KafkaProducer(bootstrap_servers=bootstrap_servers, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+
+# Tentukan nama topik Kafka
 topic_name = 'coba'
 
-try:
-    json_data = {
-        'title': 'ini berita yang viral', 
-        'date': '2024-01-01', 
-        'content': 'apa yanng viral semua di bahas '
-        }
-    producer.send(topic_name, value=json_data)
-    print(f"Produced message: {json_data}")
+# Contoh data JSON
+json_data = {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}
 
-except Exception as e:
-    print(f"Error producing message: {e}")
+# Kirim pesan JSON ke topik Kafka
+producer.send(topic_name, json_data)
 
-finally:
-    producer.flush()
-    producer.close()
+# Tunggu agar pesan terkirim
+producer.flush()
+
+# Tutup koneksi ke produsen Kafka
+producer.close()
