@@ -8,4 +8,6 @@ consumer = KafkaConsumer(
 
 for msg in consumer:
     print("Message Consumer")
-    print("ini pesan",msg)
+    print(msg.value)
+
+consumer.close()
