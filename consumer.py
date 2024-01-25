@@ -1,8 +1,8 @@
 from kafka import KafkaConsumer
 
 consumer = KafkaConsumer(
-    'coba',
-    bootstrap_servers='localhost:9092',
+    'online_news',
+    bootstrap_servers='10.11.13.81:9092',
     auto_offset_reset='earliest'
 )
 

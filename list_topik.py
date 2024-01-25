@@ -1,18 +1,24 @@
 from kafka import KafkaAdminClient
+import time
 
-# Tentukan alamat broker Kafka
-bootstrap_servers = 'localhost:9092'  # Ganti dengan alamat broker Kafka Anda
+bootstrap_servers = 'localhost:9092'
+max_retries = 3
+retry_delay = 5  # seconds
 
-# Buat objek KafkaAdminClient
-admin_client = KafkaAdminClient(bootstrap_servers=bootstrap_servers)
-
-# Dapatkan list topik
-topics = admin_client.list_topics()
-
-# Cetak list topik
-print("List Topik Kafka:")
-for topic in topics:
-    print(topic)
-
-# Tutup koneksi ke admin client
-admin_client.close()
+for attempt in range(1, max_retries + 1):
+    try:
+        admin_client = KafkaAdminClient(bootstrap_servers=bootstrap_servers)
+        topics = admin_client.list_topics()
+        print("List Topik Kafka:")
+        for topic in topics:
+            print(topic)
+        admin_client.close()
+        break  # Successful connection, exit loop
+    except Exception as e:
+        print(f"Attempt {attempt} failed: {e}")
+        if attempt < max_retries:
+            print(f"Retrying in {retry_delay} seconds...")
+            time.sleep(retry_delay)
+        else:
+            print("Max retries reached. Exiting.")
+            break

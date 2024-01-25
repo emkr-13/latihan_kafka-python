@@ -10,8 +10,14 @@ producer = KafkaProducer(bootstrap_servers=bootstrap_servers, value_serializer=l
 # Tentukan nama topik Kafka
 topic_name = 'coba'
 
+title='ini cuma berita'
+date='2023-01-23'
+content="ini berita yang di ajarkan dan dalam "
 # Contoh data JSON
-json_data = {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}
+json_data = {
+    'title': title, 
+    'date': date, 
+    'content': content}
 
 # Kirim pesan JSON ke topik Kafka
 producer.send(topic_name, json_data)
