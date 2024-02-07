@@ -1,7 +1,7 @@
 from kafka import KafkaAdminClient
 import time
 
-bootstrap_servers = 'localhost:9092'
+bootstrap_servers = '10.11.13.81:9092'
 max_retries = 3
 retry_delay = 5  # seconds
 

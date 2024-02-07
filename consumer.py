@@ -1,13 +1,14 @@
 from kafka import KafkaConsumer
+import json
 
 consumer = KafkaConsumer(
-    'online_news',
+    'twitter',
     bootstrap_servers='10.11.13.81:9092',
     auto_offset_reset='earliest'
 )
 
 for msg in consumer:
     print("Message Consumer")
-    print(msg.value)
+    print(json.loads(msg.value.decode('utf-8')))
 
 consumer.close()
