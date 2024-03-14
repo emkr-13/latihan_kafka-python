@@ -9,6 +9,6 @@ consumer = KafkaConsumer(
 
 for msg in consumer:
     print("Message Consumer")
-    print(json.loads(msg.value.decode('utf-8')))
+    print(json.loads(msg.value))
 
 consumer.close()
